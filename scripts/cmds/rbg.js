@@ -1,69 +1,71 @@
 const axios = require("axios");
-const nix = "http://65.109.80.126:20409/aryan/rbg";
 
 module.exports = {
   config: {
-    name: "removebg",
-    aliases: ["rbg"],
-    version: "0.0.1",
-    role: 0,
-    author: "ArYAN",
-    category: "utility",
-    cooldowns: 5,
-    countDown: 5,
-    guide: {
-      en: "removebg reply with an image"
-    }
+    name: "rbg",
+    version: "1.0",
+    author: "Saimx69x",
+    category: "image",
+    shortDescription: "Remove background from image",
+    longDescription: "Removes background from replied or attached image",
+    guide: "{pn} (reply to image)"
   },
-  onStart: async ({ api, event }) => {
-    const { threadID, messageID, messageReply } = event;
 
-    if (!messageReply || !messageReply.attachments || messageReply.attachments.length === 0 || !messageReply.attachments[0].url) {
-      return api.sendMessage("Please reply to an image to remove its background.", threadID, messageID);
-    }
-
+  onStart: async function ({ api, event }) {
     try {
-      api.setMessageReaction("⏰", messageID, () => {}, true);
+      let imageUrl = "";
 
-      const imageUrl = messageReply.attachments[0].url;
-
-      
-      const apiResponse = await axios.get(nix, {
-        params: {
-          imageUrl: imageUrl
-        }
-      });
-
-      const resultUrl = apiResponse.data.result;
-
-      if (!resultUrl) {
-        throw new Error("API did not return a valid result URL.");
+      if (
+        event.type === "message_reply" &&
+        event.messageReply &&
+        event.messageReply.attachments &&
+        event.messageReply.attachments.length
+      ) {
+        imageUrl = event.messageReply.attachments[0].url;
+      } 
+      else if (event.attachments && event.attachments.length) {
+        imageUrl = event.attachments[0].url;
+      } 
+      else {
+        return api.sendMessage("❌ Please reply to or attach an image.", event.threadID, event.messageID);
       }
 
-      
-      const imageStreamResponse = await axios.get(resultUrl, {
-        responseType: 'stream'
+      const processingMsg = await api.sendMessage(
+        "⏳ Processing your image, please wait...",
+        event.threadID,
+        null,
+        event.messageID
+      );
+
+      const apiUrl = `https://xsaim8x-xxx-api.onrender.com/api/removebg?url=${encodeURIComponent(imageUrl)}`;
+      const response = await axios({
+        method: "GET",
+        url: apiUrl,
+        responseType: "stream"
       });
 
-      await api.sendMessage({
-        body: "removebg successfully <🎀",
-        attachment: imageStreamResponse.data
-      }, threadID);
+      await api.sendMessage(
+        {
+          body: "✅ Background removed successfully!",
+          attachment: response.data
+        },
+        event.threadID,
+        null,
+        event.messageID
+      );
 
-      api.setMessageReaction("✅", messageID, () => {}, true);
-
-    } catch (e) {
-      console.error(e);
-      api.setMessageReaction("❌", messageID, () => {}, true);
-      
-      let errorMessage = "An error occurred while processing the command.";
-      if (e.response && e.response.data && e.response.data.error) {
-          errorMessage = `API Error: ${e.response.data.error}`;
-      } else if (e.message) {
-          errorMessage = `Processing Error: ${e.message}`;
+      if (processingMsg && processingMsg.messageID) {
+        api.unsendMessage(processingMsg.messageID);
       }
 
-      api.sendMessage(errorMessage, threadID, messageID);
+    } catch (error) {
+      console.error("rbg command error:", error);
+
+      if (processingMsg && processingMsg.messageID) {
+        api.unsendMessage(processingMsg.messageID);
+      }
+
+      return api.sendMessage("❌ Failed to remove background.", event.threadID, event.messageID);
     }
   }
 };

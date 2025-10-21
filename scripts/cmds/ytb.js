@@ -14,7 +14,7 @@ module.exports = {
   config: {
     name: "youtube",
     aliases: ["ytb"],
-    version: "0.0.1",
+    version: "0.0.9",
     author: "ArYAN",
     countDown: 5,
     role: 0,
@@ -109,4 +109,4 @@ async function p(q, r, s, t) {
     console.error(`${r} error:`, err.message);
     s.sendMessage(`❌ Failed to download ${r}.`, t.threadID, t.messageID);
   }
-}
+  }
