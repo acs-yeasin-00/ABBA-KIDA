@@ -1,13 +1,13 @@
 {
   "timeZone": "Asia/Dhaka",
-  "prefix": "!",
+  "prefix": "/",
   "language": "en",
   "api": "http://65.109.80.126:20409/aryan",
   "baby": "https://nix-baby-apis.vercel.app",
-  "nickNameBot": "Goat-Bot-V2",
+  "nickNameBot": "[ / ] • 𝖧𝖨 𝖭𝖠 𝖳𝖠 🎀",
   "database": {
-    "type": "sqlite",
-    "uriMongodb": "",
+    "type": "mongodb",
+    "uriMongodb": "mongodb+srv://yeasinbhai:YEASINBHAI12345@cluster0.cu3mxh5.mongodb.net/YEASINAHMED?retryWrites=true&w=majority&appName=Cluster0",
     "autoSyncWhenStart": false,
     "autoRefreshThreadInfoFirstTime": true
   },
@@ -47,13 +47,13 @@
     "ignoreCommand": []
   },
   "adminBot": [
-    "100001611578438"
+    "100004726270950"
   ],
   "developer": [
-    "100001611578438"
+    "100004726270950"
   ],
   "vipuser": [
-    "100001611578438"
+    "100004726270950"
   ], 
   "whiteListMode": {
     "enable": false,
