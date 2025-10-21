@@ -7,7 +7,7 @@ module.exports = {
 		version: "1.7",
 		author: "NTKhang",
 		countDown: 5,
-		role: 2,
+		role: 3,
 		description: {
 			vi: "Gửi thông báo từ admin đến all box",
 			en: "Send notification from admin to all box"

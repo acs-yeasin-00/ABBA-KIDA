@@ -36,13 +36,11 @@ module.exports = {
 			let msg = "";
 			for (const uid of uids) {
 				const userMoney = await usersData.get(uid, "money");
-				const name = event.mentions[uid].replace("@", "");
-				msg += getLang("moneyOf", name, userMoney) + '\n';
+				msg += getLang("moneyOf", event.mentions[uid].replace("@", ""), userMoney) + '\n';
 			}
-			return message.reply(msg.trim());
+			return message.reply(msg);
 		}
-
 		const userData = await usersData.get(event.senderID);
-		return message.reply(getLang("money", userData.money));
+		message.reply(getLang("money", userData.money));
 	}
 };

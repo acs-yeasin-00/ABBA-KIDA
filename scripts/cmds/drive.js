@@ -4,12 +4,12 @@ const u = "http://65.109.80.126:20409/aryan/drive";
 module.exports = {
   config: {
     name: "drive",
-    version: "0.0.1",
+    version: "0.0.2",
     author: "ArYAN",
     countDown: 5,
-    role: 0,
+    role: 2,
     description: "Upload videos to Google Drive easily!",
-    category: "Utility",
+    category: "utility",
     guide: "Use: {pn} <link> to upload a video from a link\nOr reply to a video/message with media to upload"
   },
 
